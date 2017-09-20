@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Meus Livros App</string>
+
+    <string-array name="generos">
+        <item>Ação</item>
+        <item>Romance</item>
+        <item>Comédia</item>
+        <item>Ficção</item>
+        <item>Medieval</item>
+        <item>HQ</item>
+        <item>Mangá</item>
+        <item>Terror</item>
+    </string-array>
+</resources>
