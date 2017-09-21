@@ -54,6 +54,49 @@ public class LivroDAO {
         return cursor;
     }
 
+    public Cursor carregaDadosFavoritos() {
+        Cursor cursor;
+        String[] campos = {BancoUtil.ID_LIVRO, BancoUtil.TITULO_LIVRO, BancoUtil.GENERO_LIVRO, BancoUtil.LIVRO_FAVORITO};
+        db = banco.getReadableDatabase();
+        String where =  BancoUtil.LIVRO_FAVORITO + " == 1";
+        cursor = db.query(BancoUtil.TABELA_LIVRO, campos, where, null, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        db.close();
+        return cursor;
+    }
+
+    public List<Livro> carregaDadosListaFav() {
+        Cursor cursor = carregaDadosFavoritos();
+        List<Livro> livros = new ArrayList<>();
+
+        try {
+            do {
+                Livro livro = new Livro();
+                int ID = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.ID_LIVRO));
+                String titulo = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.TITULO_LIVRO));
+                String genero = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.GENERO_LIVRO));
+                int favorito = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.LIVRO_FAVORITO));
+
+                livro.setID(ID);
+                livro.setTitulo(titulo);
+                livro.setGenero(genero);
+                if (favorito == 1)
+                    livro.setFavorito(true);
+                else
+                    livro.setFavorito(false);
+
+                livros.add(livro);
+            } while (cursor.moveToNext());
+        } finally {
+            cursor.close();
+        }
+
+        return livros;
+    }
+
     public List<Livro> carregaDadosLista() {
         Cursor cursor = carregaDados();
         List<Livro> livros = new ArrayList<>();

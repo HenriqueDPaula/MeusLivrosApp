@@ -25,6 +25,9 @@ public class MainActivity extends Activity {
             case R.id.btnListar:
                 carregarIntent(ListarLivrosActivity.class);
                 break;
+            case R.id.btnFavoritos:
+                carregarIntent(LIstarLivrosFavoritosActivity.class);
+                break;
         }
     }
 

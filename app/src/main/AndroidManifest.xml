@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.CadastrarLivroActivity" />
-        <activity android:name=".Activity.ListarLivrosActivity"></activity>
+        <activity android:name=".Activity.ListarLivrosActivity" />
+        <activity android:name=".Activity.LIstarLivrosFavoritosActivity"></activity>
     </application>
 
 </manifest>
