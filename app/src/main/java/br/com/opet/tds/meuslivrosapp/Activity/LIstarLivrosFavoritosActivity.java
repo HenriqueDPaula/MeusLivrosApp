@@ -10,6 +10,7 @@ import br.com.opet.tds.meuslivrosapp.Adapter.LivroAdapter;
 import br.com.opet.tds.meuslivrosapp.DAO.Livro;
 import br.com.opet.tds.meuslivrosapp.DAO.LivroDAO;
 import br.com.opet.tds.meuslivrosapp.R;
+import br.com.opet.tds.meuslivrosapp.Util.BancoUtil;
 
 public class LIstarLivrosFavoritosActivity extends Activity {
 
@@ -21,7 +22,7 @@ public class LIstarLivrosFavoritosActivity extends Activity {
 
         listaLivros = (ListView) findViewById(R.id.listLivrosFav);
         LivroDAO livroDAO = new LivroDAO(this);
-        List<Livro> livros = livroDAO.carregaDadosListaFav();
+        List<Livro> livros = livroDAO.carregaDadosLista(LivroDAO.LIVROS_FAVORITOS);
         LivroAdapter myAdapter = new LivroAdapter(this,R.layout.item_livro,livros);
         listaLivros.setAdapter(myAdapter);
     }

@@ -19,6 +19,10 @@ public class LivroDAO {
     private SQLiteDatabase db;
     private DatabaseFactory banco;
 
+    public static final int LIVROS_TOTAL = 1;
+    public static final int LIVROS_FAVORITOS = 2;
+
+
     public LivroDAO(Context context) {
         banco = new DatabaseFactory(context);
     }
@@ -68,28 +72,35 @@ public class LivroDAO {
         return cursor;
     }
 
-    public List<Livro> carregaDadosListaFav() {
-        Cursor cursor = carregaDadosFavoritos();
+    public List<Livro> carregaDadosLista(int TIPO_LIVROS) {
+        Cursor cursor;
+        if(TIPO_LIVROS == LIVROS_TOTAL)
+            cursor = carregaDados();
+        else
+            cursor = carregaDadosFavoritos();
+
         List<Livro> livros = new ArrayList<>();
 
         try {
-            do {
-                Livro livro = new Livro();
-                int ID = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.ID_LIVRO));
-                String titulo = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.TITULO_LIVRO));
-                String genero = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.GENERO_LIVRO));
-                int favorito = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.LIVRO_FAVORITO));
+            if(cursor.getCount() > 0) {
+                do {
+                    Livro livro = new Livro();
+                    int ID = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.ID_LIVRO));
+                    String titulo = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.TITULO_LIVRO));
+                    String genero = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.GENERO_LIVRO));
+                    int favorito = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.LIVRO_FAVORITO));
 
-                livro.setID(ID);
-                livro.setTitulo(titulo);
-                livro.setGenero(genero);
-                if (favorito == 1)
-                    livro.setFavorito(true);
-                else
-                    livro.setFavorito(false);
+                    livro.setID(ID);
+                    livro.setTitulo(titulo);
+                    livro.setGenero(genero);
+                    if (favorito == 1)
+                        livro.setFavorito(true);
+                    else
+                        livro.setFavorito(false);
 
-                livros.add(livro);
-            } while (cursor.moveToNext());
+                    livros.add(livro);
+                } while (cursor.moveToNext());
+            }
         } finally {
             cursor.close();
         }
@@ -97,32 +108,11 @@ public class LivroDAO {
         return livros;
     }
 
-    public List<Livro> carregaDadosLista() {
-        Cursor cursor = carregaDados();
-        List<Livro> livros = new ArrayList<>();
+    public void deletaRegistro(int id){
+        String where = BancoUtil.ID_LIVRO + "=" + id;
+        db = banco.getReadableDatabase();
 
-        try {
-            do  {
-                Livro livro = new Livro();
-                int ID = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.ID_LIVRO));
-                String titulo = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.TITULO_LIVRO));
-                String genero = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.GENERO_LIVRO));
-                int favorito = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.LIVRO_FAVORITO));
-
-                livro.setID(ID);
-                livro.setTitulo(titulo);
-                livro.setGenero(genero);
-                if(favorito == 1)
-                    livro.setFavorito(true);
-                else
-                    livro.setFavorito(false);
-
-                livros.add(livro);
-            }while(cursor.moveToNext());
-        } finally {
-            cursor.close();
-        }
-
-        return livros;
+        db.delete(BancoUtil.TABELA_LIVRO,where,null);
+        db.close();
     }
 }

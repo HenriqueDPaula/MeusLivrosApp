@@ -11,4 +11,13 @@
         <item>Mangá</item>
         <item>Terror</item>
     </string-array>
+
+    <string-array name="options">
+        <item>Atualizar</item>
+        <item>Remover</item>
+    </string-array>
+    
+    <string name="dialog_message">Teste</string>
+    <string name="cancel">Cancelar</string>
+    <string name="dialog_title">Escolha o que deseja fazer.</string>
 </resources>

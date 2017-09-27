@@ -1,9 +1,14 @@
 package br.com.opet.tds.meuslivrosapp.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,16 +21,52 @@ public class ListarLivrosActivity extends Activity {
 
 
     private ListView listaLivros;
-
+    private LivroAdapter myAdapter;
+    LivroDAO livroDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listar_livros);
 
+        carregarElementos();
+
+        listaLivros.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Livro livro = (Livro)parent.getItemAtPosition(position);
+                createDialog(livro);
+            }
+        });
+    }
+
+    public void createDialog(final Livro livro){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.dialog_title);
+        builder.setItems(R.array.options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case 0:
+                        break;
+                    case 1:
+                        livroDAO.deletaRegistro(livro.getID());
+                        Toast.makeText(ListarLivrosActivity.this, "Livro removido com sucesso.", Toast.LENGTH_SHORT).show();
+                        carregarElementos();
+                        break;
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void carregarElementos(){
         listaLivros = (ListView) findViewById(R.id.listLivros);
-        LivroDAO livroDAO = new LivroDAO(this);
-        List<Livro> livros = livroDAO.carregaDadosLista();
-        LivroAdapter myAdapter = new LivroAdapter(this,R.layout.item_livro,livros);
+        livroDAO = new LivroDAO(this);
+        List<Livro> livros = livroDAO.carregaDadosLista(LivroDAO.LIVROS_TOTAL);
+        myAdapter = new LivroAdapter(this,R.layout.item_livro,livros);
         listaLivros.setAdapter(myAdapter);
     }
 }
