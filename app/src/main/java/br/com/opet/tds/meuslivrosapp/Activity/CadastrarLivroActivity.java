@@ -1,6 +1,7 @@
 package br.com.opet.tds.meuslivrosapp.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -39,6 +40,9 @@ public class CadastrarLivroActivity extends Activity {
 
         if(resultado > 0){
             exibirMensagem("Cadastro realizado com sucesso!");
+            Intent listarLivros = new Intent(CadastrarLivroActivity.this,ListarLivrosActivity.class);
+            startActivity(listarLivros);
+            finish();
         }
         else{
             exibirMensagem("Erro ao cadastrar o item.");

@@ -12,7 +12,7 @@ import br.com.opet.tds.meuslivrosapp.DAO.LivroDAO;
 import br.com.opet.tds.meuslivrosapp.R;
 import br.com.opet.tds.meuslivrosapp.Util.BancoUtil;
 
-public class LIstarLivrosFavoritosActivity extends Activity {
+public class ListarLivrosFavoritosActivity extends Activity {
 
     private ListView listaLivros;
     @Override

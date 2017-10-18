@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.List;
-
 import br.com.opet.tds.meuslivrosapp.R;
 
 public class MainActivity extends Activity {
@@ -26,7 +24,7 @@ public class MainActivity extends Activity {
                 carregarIntent(ListarLivrosActivity.class);
                 break;
             case R.id.btnFavoritos:
-                carregarIntent(LIstarLivrosFavoritosActivity.class);
+                carregarIntent(ListarLivrosFavoritosActivity.class);
                 break;
         }
     }

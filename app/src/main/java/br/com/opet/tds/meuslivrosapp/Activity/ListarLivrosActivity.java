@@ -3,6 +3,7 @@ package br.com.opet.tds.meuslivrosapp.Activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,37 +30,6 @@ public class ListarLivrosActivity extends Activity {
         setContentView(R.layout.activity_listar_livros);
 
         carregarElementos();
-
-        listaLivros.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Livro livro = (Livro)parent.getItemAtPosition(position);
-                createDialog(livro);
-            }
-        });
-    }
-
-    public void createDialog(final Livro livro){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.dialog_title);
-        builder.setItems(R.array.options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case 0:
-                        break;
-                    case 1:
-                        livroDAO.deletaRegistro(livro.getID());
-                        Toast.makeText(ListarLivrosActivity.this, "Livro removido com sucesso.", Toast.LENGTH_SHORT).show();
-                        carregarElementos();
-                        break;
-                }
-            }
-        });
-        builder.setNegativeButton(R.string.cancel, null);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     public void carregarElementos(){
@@ -68,5 +38,14 @@ public class ListarLivrosActivity extends Activity {
         List<Livro> livros = livroDAO.carregaDadosLista(LivroDAO.LIVROS_TOTAL);
         myAdapter = new LivroAdapter(this,R.layout.item_livro,livros);
         listaLivros.setAdapter(myAdapter);
+        listaLivros.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Livro livro = (Livro)parent.getItemAtPosition(position);
+                Intent atualizarIntent = new Intent(ListarLivrosActivity.this,AtualizarLivrosActivity.class);
+                atualizarIntent.putExtra("ID_LIVRO",livro.getID());
+                startActivity(atualizarIntent);
+            }
+        });
     }
 }

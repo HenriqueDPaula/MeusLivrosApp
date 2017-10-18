@@ -16,8 +16,8 @@
         <item>Atualizar</item>
         <item>Remover</item>
     </string-array>
-    
-    <string name="dialog_message">Teste</string>
+
+    <string name="dialog_message">Tem certeza que deseja remover este livro do sistema?</string>
     <string name="cancel">Cancelar</string>
-    <string name="dialog_title">Escolha o que deseja fazer.</string>
+    <string name="dialog_title">Remover Livro.</string>
 </resources>

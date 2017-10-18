@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".Activity.CadastrarLivroActivity" />
         <activity android:name=".Activity.ListarLivrosActivity" />
-        <activity android:name=".Activity.LIstarLivrosFavoritosActivity" />
+        <activity android:name=".Activity.ListarLivrosFavoritosActivity" />
+        <activity android:name=".Activity.AtualizarLivrosActivity"></activity>
     </application>
 
 </manifest>

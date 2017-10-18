@@ -44,13 +44,42 @@ public class LivroDAO {
 
     }
 
+    public Livro carregaLivroPorID(int id){
+        Cursor cursor;
+        String[] campos = {BancoUtil.ID_LIVRO, BancoUtil.TITULO_LIVRO, BancoUtil.GENERO_LIVRO, BancoUtil.LIVRO_FAVORITO};
+        db = banco.getReadableDatabase();
+
+        String where = BancoUtil.ID_LIVRO + " = " + id;
+
+        cursor = db.query(BancoUtil.TABELA_LIVRO, campos, where, null, null, null, null, null);
+
+        Livro livro = new Livro();
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+            int ID = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.ID_LIVRO));
+            String titulo = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.TITULO_LIVRO));
+            String genero = cursor.getString(cursor.getColumnIndexOrThrow(BancoUtil.GENERO_LIVRO));
+            int favorito = cursor.getInt(cursor.getColumnIndexOrThrow(BancoUtil.LIVRO_FAVORITO));
+
+            livro.setID(ID);
+            livro.setTitulo(titulo);
+            livro.setGenero(genero);
+            if (favorito == 1)
+                livro.setFavorito(true);
+            else
+                livro.setFavorito(false);
+        }
+        db.close();
+        return livro;
+    }
+
     public Cursor carregaDados() {
         Cursor cursor;
         String[] campos = {BancoUtil.ID_LIVRO, BancoUtil.TITULO_LIVRO, BancoUtil.GENERO_LIVRO, BancoUtil.LIVRO_FAVORITO};
         db = banco.getReadableDatabase();
 
         cursor = db.query(BancoUtil.TABELA_LIVRO, campos, null, null, null, null, null, null);
-
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -114,5 +143,27 @@ public class LivroDAO {
 
         db.delete(BancoUtil.TABELA_LIVRO,where,null);
         db.close();
+    }
+
+    public boolean atualizaLivro(Livro livro){
+        ContentValues valores;
+        String where;
+
+        db = banco.getWritableDatabase();
+
+        where = BancoUtil.ID_LIVRO + " = " + livro.getID();
+
+        valores = new ContentValues();
+        valores.put(BancoUtil.TITULO_LIVRO, livro.getTitulo());
+        valores.put(BancoUtil.GENERO_LIVRO, livro.getGenero());
+        valores.put(BancoUtil.LIVRO_FAVORITO, livro.isFavorito());
+
+
+        int resultado = db.update(BancoUtil.TABELA_LIVRO,valores,where,null);
+        db.close();
+        if(resultado > 0)
+            return true;
+        else
+            return false;
     }
 }
