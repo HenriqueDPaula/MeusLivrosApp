@@ -4,12 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="br.com.opet.tds.meuslivrosapp.Activity.MainActivity">
 
+    <TextView
+        android:textSize="25sp"
+        android:id="@+id/textWelcome"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:onClick="deslogar"
+        android:text="Sair"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <GridLayout
         android:layout_gravity="center"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="130dp"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"

@@ -35,6 +35,7 @@ public class CadastrarLivroActivity extends Activity {
         livro.setTitulo(editTitulo.getText().toString());
         livro.setGenero(spinnerGenero.getSelectedItem().toString());
         livro.setFavorito(checkFavorito.isChecked());
+        livro.setId_usuario(MainActivity.usuarioLogado.getID());
 
         long resultado = livroDAO.insereDado(livro);
 

@@ -13,6 +13,9 @@ import br.com.opet.tds.meuslivrosapp.Util.BancoUtil;
 
 /**
  * Created by Diego on 13/09/2017.
+ *
+ * Classe para inserção, remoção, atualização e busca em Banco de Dados de um Livro.
+ *
  */
 
 public class LivroDAO {
@@ -36,6 +39,7 @@ public class LivroDAO {
         valores.put(BancoUtil.TITULO_LIVRO, livro.getTitulo());
         valores.put(BancoUtil.GENERO_LIVRO, livro.getGenero());
         valores.put(BancoUtil.LIVRO_FAVORITO, livro.isFavorito() ? 1 : 0);
+        valores.put(BancoUtil.LIVRO_USUARIO,livro.getId_usuario());
 
         resultado = db.insert(BancoUtil.TABELA_LIVRO, null, valores);
         db.close();
@@ -74,12 +78,14 @@ public class LivroDAO {
         return livro;
     }
 
-    public Cursor carregaDados() {
+    public Cursor carregaDados(long id_usuario) {
         Cursor cursor;
         String[] campos = {BancoUtil.ID_LIVRO, BancoUtil.TITULO_LIVRO, BancoUtil.GENERO_LIVRO, BancoUtil.LIVRO_FAVORITO};
         db = banco.getReadableDatabase();
 
-        cursor = db.query(BancoUtil.TABELA_LIVRO, campos, null, null, null, null, null, null);
+        String where = BancoUtil.LIVRO_USUARIO + " = " + id_usuario;
+
+        cursor = db.query(BancoUtil.TABELA_LIVRO, campos, where, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -87,11 +93,13 @@ public class LivroDAO {
         return cursor;
     }
 
-    public Cursor carregaDadosFavoritos() {
+    public Cursor carregaDadosFavoritos(long id_usuario) {
         Cursor cursor;
         String[] campos = {BancoUtil.ID_LIVRO, BancoUtil.TITULO_LIVRO, BancoUtil.GENERO_LIVRO, BancoUtil.LIVRO_FAVORITO};
         db = banco.getReadableDatabase();
         String where =  BancoUtil.LIVRO_FAVORITO + " == 1";
+        where += " and " + BancoUtil.LIVRO_USUARIO + " = " + id_usuario;
+
         cursor = db.query(BancoUtil.TABELA_LIVRO, campos, where, null, null, null, null, null);
 
         if (cursor != null) {
@@ -101,12 +109,12 @@ public class LivroDAO {
         return cursor;
     }
 
-    public List<Livro> carregaDadosLista(int TIPO_LIVROS) {
+    public List<Livro> carregaDadosLista(int TIPO_LIVROS, long id_usuario) {
         Cursor cursor;
         if(TIPO_LIVROS == LIVROS_TOTAL)
-            cursor = carregaDados();
+            cursor = carregaDados(id_usuario);
         else
-            cursor = carregaDadosFavoritos();
+            cursor = carregaDadosFavoritos(id_usuario);
 
         List<Livro> livros = new ArrayList<>();
 
@@ -157,7 +165,6 @@ public class LivroDAO {
         valores.put(BancoUtil.TITULO_LIVRO, livro.getTitulo());
         valores.put(BancoUtil.GENERO_LIVRO, livro.getGenero());
         valores.put(BancoUtil.LIVRO_FAVORITO, livro.isFavorito());
-
 
         int resultado = db.update(BancoUtil.TABELA_LIVRO,valores,where,null);
         db.close();

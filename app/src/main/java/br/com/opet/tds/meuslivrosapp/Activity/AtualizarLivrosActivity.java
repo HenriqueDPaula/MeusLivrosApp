@@ -75,7 +75,6 @@ public class AtualizarLivrosActivity extends Activity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 
     private void telaInicial() {

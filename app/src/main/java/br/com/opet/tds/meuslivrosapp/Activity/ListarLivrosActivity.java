@@ -35,7 +35,7 @@ public class ListarLivrosActivity extends Activity {
     public void carregarElementos(){
         listaLivros = (ListView) findViewById(R.id.listLivros);
         livroDAO = new LivroDAO(this);
-        List<Livro> livros = livroDAO.carregaDadosLista(LivroDAO.LIVROS_TOTAL);
+        List<Livro> livros = livroDAO.carregaDadosLista(LivroDAO.LIVROS_TOTAL,MainActivity.usuarioLogado.getID());
         myAdapter = new LivroAdapter(this,R.layout.item_livro,livros);
         listaLivros.setAdapter(myAdapter);
         listaLivros.setOnItemClickListener(new AdapterView.OnItemClickListener() {

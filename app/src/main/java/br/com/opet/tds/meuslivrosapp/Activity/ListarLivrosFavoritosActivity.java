@@ -22,7 +22,7 @@ public class ListarLivrosFavoritosActivity extends Activity {
 
         listaLivros = (ListView) findViewById(R.id.listLivrosFav);
         LivroDAO livroDAO = new LivroDAO(this);
-        List<Livro> livros = livroDAO.carregaDadosLista(LivroDAO.LIVROS_FAVORITOS);
+        List<Livro> livros = livroDAO.carregaDadosLista(LivroDAO.LIVROS_FAVORITOS,MainActivity.usuarioLogado.getID());
         LivroAdapter myAdapter = new LivroAdapter(this,R.layout.item_livro,livros);
         listaLivros.setAdapter(myAdapter);
     }
