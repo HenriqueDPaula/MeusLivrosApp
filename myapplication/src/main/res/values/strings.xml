@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="NomePessoa">Nome da pessoa:</string>
+    <string name="IdadePessoa">Idade:</string>
+    <string name="SexoPessoa">Sexo:</string>
+    <string name="SalvarButton">Salvar</string>
+</resources>
